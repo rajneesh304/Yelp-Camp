@@ -7,8 +7,9 @@
         <div class="card mb-3">
             <div class="row">
                 <div class="col-md-4">
-                    <img class="img-fluid" src="<%= campground.images[0].url %> " alt=""
-                        style="object-fit: cover; aspect-ratio: 3/2;" width="100%">
+                    <img class="img-fluid"
+                        src="<%= campground.images.length>0?campground.images[0].url:'https://res.cloudinary.com/doq9fvxos/image/upload/v1673755891/YelpCamp/qjal6oaszv8lthrq9nab.jpg'%> "
+                        alt="" style="object-fit: cover; aspect-ratio: 3/2;" width="100%">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
