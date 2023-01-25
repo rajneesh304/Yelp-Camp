@@ -5,6 +5,8 @@ const Review = require('./review');
 
 // 'https://res.cloudinary.com/doq9fvxos/image/upload/v1673757508/YelpCamp/sjzdqpgrzqmmh2dxips6.jpg
 
+const opts = { toJSON: { virtuals: true } };
+
 const ImageSchema = new Schema({
     url: String,
     filename: String
@@ -19,6 +21,17 @@ const CampgroundSchema = new Schema({
     price: Number,
     description: String,
     images: [ImageSchema],
+    geometry: {
+        type: {
+            type: String, // Don't do `{ location: { type: String } }`
+            enum: ['Point'], // 'location.type' must be 'Point'
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     location: String,
     author: {
         type: Schema.Types.ObjectId,
@@ -30,6 +43,13 @@ const CampgroundSchema = new Schema({
             ref: 'Review'
         }
     ]
+}, opts);
+
+CampgroundSchema.virtual('properties').get(function () {
+    return {
+        id: this._id,
+        title: this.title
+    }
 });
 
 CampgroundSchema.post('findOneAndDelete', async (doc) => {
